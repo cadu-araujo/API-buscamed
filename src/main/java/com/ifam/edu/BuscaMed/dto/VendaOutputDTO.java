@@ -8,16 +8,38 @@ public class VendaOutputDTO {
     private String remedio;
     private String farmacia;
     private String concluida;
+    private String telefone;
+    private int quantidade;
 
     public VendaOutputDTO(Venda venda) {
         this.id = venda.getId();
+        this.telefone = venda.getUsuario() != null ? venda.getUsuario().getTelefone(): null;
         this.usuario = venda.getUsuario() != null ? venda.getUsuario().getNome() : null;
         this.remedio = venda.getRemedio() != null ? venda.getRemedio().getNome() : null;
         this.farmacia = venda.getRemedio() != null && venda.getRemedio().getFarmacia() != null ? venda.getRemedio().getFarmacia().getNome() : null;
         this.concluida = venda.getConcluida();
+        this.quantidade = venda.getQuantidade();
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     // Getters e setters
+
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
     public Long getId() {
         return id;
     }

@@ -11,6 +11,7 @@ public class Venda {
     @ManyToOne
     private Usuario usuario;
 
+    private int quantidade;
     @ManyToOne
     private Remedio remedio;
 
@@ -19,8 +20,9 @@ public class Venda {
     public Venda() {
     }
 
-    public Venda(Usuario usuario, Remedio remedio, String concluida) {
+    public Venda(Usuario usuario, Remedio remedio, String concluida, int quantidade) {
         this.usuario = usuario;
+        this.quantidade = quantidade;
         this.remedio = remedio;
         this.concluida = concluida;
     }
@@ -55,5 +57,13 @@ public class Venda {
 
     public void setConcluida(String concluida) {
         this.concluida = concluida;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 }
