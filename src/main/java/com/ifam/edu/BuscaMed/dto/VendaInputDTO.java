@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class VendaInputDTO {
     private Long usuarioId;
     private Long remedioId;
+    private int quantidade;
     private String concluida;
 
     public Venda build(UsuarioRepository usuarioRepository, RemedioRepository remedioRepository) {
@@ -20,7 +21,7 @@ public class VendaInputDTO {
         Remedio remedioObj = remedioRepository.findById(remedioId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Remédio não encontrado"));
 
-        return new Venda(usuarioObj, remedioObj, concluida);
+        return new Venda(usuarioObj, remedioObj, concluida, quantidade);
     }
 
     public VendaInputDTO() {
@@ -48,5 +49,13 @@ public class VendaInputDTO {
 
     public void setConcluida(String concluida) {
         this.concluida = concluida;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 }

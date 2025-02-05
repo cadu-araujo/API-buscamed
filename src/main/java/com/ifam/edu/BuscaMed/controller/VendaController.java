@@ -65,6 +65,40 @@ public class VendaController {
         }
     }
 
+    @GetMapping(path = "/farmacia/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<VendaOutputDTO>> getFarmacia(@PathVariable Long id) {
+
+        List<Venda> vendaList = vendaRepository.findByFarmacia(id);
+
+        List<VendaOutputDTO> vendaOutputDTOList = new ArrayList<>();
+        for (Venda venda : vendaList) {
+            vendaOutputDTOList.add(new VendaOutputDTO(venda));
+        }
+
+        if (!vendaOutputDTOList.isEmpty()) {
+            return new ResponseEntity<>(vendaOutputDTOList, HttpStatus.OK);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "A lista de vendas está vazia");
+        }
+    }
+
+    @GetMapping(path = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<VendaOutputDTO>> getUSer(@PathVariable Long id) {
+
+        List<Venda> vendaList = vendaRepository.findByUser(id);
+
+        List<VendaOutputDTO> vendaOutputDTOList = new ArrayList<>();
+        for (Venda venda : vendaList) {
+            vendaOutputDTOList.add(new VendaOutputDTO(venda));
+        }
+
+        if (!vendaOutputDTOList.isEmpty()) {
+            return new ResponseEntity<>(vendaOutputDTOList, HttpStatus.OK);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "A lista de vendas está vazia");
+        }
+    }
+
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VendaOutputDTO> update(@PathVariable Long id, @RequestBody VendaInputDTO vendaInputDTO) {
         Optional<Venda> vendaOptional = vendaRepository.findById(id);
@@ -94,11 +128,11 @@ public class VendaController {
 
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Venda> create(@RequestBody VendaInputDTO vendaInputDTO) {
+    public ResponseEntity<VendaOutputDTO> create(@RequestBody VendaInputDTO vendaInputDTO) {
         try {
             Venda venda = vendaInputDTO.build(usuarioRepository, remedioRepository);
             vendaRepository.save(venda);
-            return new ResponseEntity<>(venda, HttpStatus.CREATED);
+            return new ResponseEntity<>(new VendaOutputDTO(venda), HttpStatus.CREATED);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao criar a venda: " + e.getMessage());
         }
@@ -113,4 +147,6 @@ public class VendaController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "O venda não foi excluído: " + e.getMessage());
         }
     }
+
+
 }
